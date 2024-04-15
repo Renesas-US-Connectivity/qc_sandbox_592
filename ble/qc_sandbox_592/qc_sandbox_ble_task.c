@@ -65,9 +65,6 @@ static void handle_write_led(uint8_t conn_idx, uint16_t id, uint8_t const * cons
 static void handle_read_version(uint8_t conn_idx, uint16_t id, uint8_t const * const data);
 static void handle_read_temperature_param(uint8_t conn_idx, uint16_t id, uint8_t const * const data);
 static void handle_read_humidity_param(uint8_t conn_idx, uint16_t id, uint8_t const * const data);
-static void handle_humidity_gauge_read(uint8_t conn_idx, uint16_t id, uint8_t const * const data);
-static void handle_temperature_gauge_read(uint8_t conn_idx, uint16_t id, uint8_t const * const data);
-static void handle_graph_read(uint8_t conn_idx, uint16_t id, uint8_t const * const data);
 
 typedef enum
 {
@@ -106,9 +103,6 @@ static const qc_svc_request_handlers_t qc_sv_req_handlers[] =
 	{ 0x0201,		handle_read_temperature_param,		NULL					},
 	{ 0x0202,		handle_read_humidity_param,			NULL					},
 	{ 0x0301,		handle_read_version,				NULL					},
-	{ 0x0401,		handle_temperature_gauge_read,		NULL					},
-	{ 0x0402,		handle_humidity_gauge_read,			NULL					},
-	{ 0x0500,		handle_graph_read,					NULL					},
 	{ 0xFFFF,		NULL,								NULL					}
 };
 
@@ -163,22 +157,6 @@ static void handle_read_temperature_param(uint8_t conn_idx, uint16_t id, uint8_t
 static void handle_read_version(uint8_t conn_idx, uint16_t id, uint8_t const * const data)
 {
     qc_svc_send_read_response(conn_idx, QC_SVC_SUCCESS, id, (uint16_t)strlen(version_str), (uint8_t *)version_str);
-}
-
-static void handle_temperature_gauge_read(uint8_t conn_idx, uint16_t id, uint8_t const * const data)
-{
-	qc_svc_send_read_response(conn_idx, QC_SVC_SUCCESS, id, sizeof(temperature), (uint8_t *)&temperature);
-}
-
-static void handle_humidity_gauge_read(uint8_t conn_idx, uint16_t id, uint8_t const * const data)
-{
-	qc_svc_send_read_response(conn_idx, QC_SVC_SUCCESS, id, sizeof(humidity), (uint8_t *)&humidity);
-}
-
-static void handle_graph_read(uint8_t conn_idx, uint16_t id, uint8_t const * const data)
-{
-	graph_data_t graph_data = {.temperature = temperature, .humidity = humidity};
-	qc_svc_send_read_response(conn_idx, QC_SVC_SUCCESS, id, sizeof(graph_data_t), (uint8_t *)&graph_data);
 }
 
 static void handle_write_led(uint8_t conn_idx, uint16_t id, uint8_t const * const data)
