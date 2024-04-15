@@ -1,0 +1,175 @@
+{
+  "gui":
+  {
+    "id": "0000",
+    "title": "US592 QC Example",
+    "version:": "0.0.1",
+    "background_color": "62bd60",
+    "banner_logo": "https://smc-diodes.com/images/foot_003.png",
+    "tab":
+    [
+      {
+        "id": "0001",
+        "name": "LED",
+        "toggle":
+        {
+          "id": "0100",
+          "type": "uint8_t",
+          "name": "LED 1",
+          "default": 0
+        }        
+      },
+      {
+        "id": "0002",
+        "name": "HS3001",
+        "parameters":
+        {
+          "id": "0200",
+          "type": "blob",
+          "access": "r",
+          "list":
+          [
+            {
+              "id": "0201",
+              "name": "Temperature",
+              "units": "",
+              "type": "int16_t",
+              "access": "r",
+              "value": null,
+              "auto_read": true
+            },
+            {
+              "id": "0202",
+              "name": "Humidity",
+              "units": "",
+              "type": "int16_t",
+              "access": "r",
+              "value": null,
+              "auto_read": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "0003",
+        "name": "About",
+        "parameters":
+        {
+          "id": "0300",
+          "type": "blob",
+          "access": "r",
+          "list":
+          [
+            {
+              "id": "0301",
+              "name": "Test Version",
+              "type": "string",
+              "access": "const",
+              "value": null
+            }
+          ]
+        }
+      },
+      {
+        "id": "0004",
+        "name": "Gauges",
+        "gauge":
+        [
+            {
+                "id": "0401",
+                "name": "Temperature",
+                "units": "Centigrade",
+                "type": "int16_t",
+                "minimum": 0,
+                "maximum": 105,
+                "showminmax": true,
+                "default": 0,
+                "color": "255,0,0",
+                "value": null
+            },
+            {
+                "id": "0402",
+                "name": "Humidity",
+                "units": "% RH",
+                "type": "int16_t",
+                "minimum": 0,
+                "maximum": 100,
+                "showminmax": true,
+                "default": 0,
+                "value": null
+            }         
+        ]
+      },
+      {
+        "id": "0005",
+        "name": "Graph",
+        "graph":
+        {
+          "x-axis":
+          {
+            "format":
+            [
+              {
+                "type": "Time"
+              },
+              {
+                "type": "Points"
+              }
+            ],
+            "buffer":
+            [
+              {
+                "size": 5
+              },
+              {
+                "size": 10
+              },
+              {
+                "size": 25
+              },
+              {
+                "size": 50
+              },
+              {
+                "size": 100
+              },
+              {
+                "default": 5
+              }
+            ]
+          }
+        },
+        "parameters":
+        {
+          "id": "0500",
+          "type": "blob",
+          "access": "r",
+          "list":
+          [
+            {
+              "id": "0501",
+              "name": "Temperature",
+              "units": "Centigrade",
+              "type": "int16_t",
+              "access": "r",
+              "scale": 1,
+              "precision": 4,
+              "auto_read": 1,              
+              "value": null
+            },
+            {
+              "id": "0502",
+              "name": "Humidity",
+              "units": "% RH",
+              "type": "int16_t",
+              "scale": 1,
+              "precision": 4,
+              "access": "r",
+              "value": null
+            }
+          ]
+        }       
+      }
+    ]
+  }
+}
