@@ -115,6 +115,11 @@ static const qc_svc_request_handlers_t qc_sv_req_handlers[] =
 static void handle_evt_gap_connected(ble_evt_gap_connected_t *evt)
 {
 	// Any necessary setup for connection
+
+	// Update transport mtu for connection
+	uint16_t mtu;
+	ble_gattc_get_mtu(evt->conn_idx, &mtu);
+	qc_svc_set_transport_mtu(mtu - 3); // Subtract 3 to account for L2CAP overhead
 }
 
 static void handle_evt_gap_disconnected(ble_evt_gap_disconnected_t *evt)
@@ -127,6 +132,12 @@ static void handle_evt_gap_pair_req(ble_evt_gap_pair_req_t *evt)
 {
 	/* Just accept the pairing request, set bond flag to what peer requested */
 	ble_gap_pair_reply(evt->conn_idx, true, evt->bond);
+}
+
+static void handle_evt_gattc_mtu_changed(ble_evt_gattc_mtu_changed_t *evt)
+{
+	// update transport mtu
+	qc_svc_set_transport_mtu(evt->mtu - 3); // Subtract 3 to account for L2CAP overhead
 }
 
 static void handle_read_gui_req(uint8_t conn_idx, uint16_t id, uint8_t const * const data)
@@ -278,10 +289,6 @@ static void send_qc_svc_response(uint8_t conn_idx, uint8_t const * const p_data,
 					{
 						case BLE_EVT_GAP_CONNECTED:
 							handle_evt_gap_connected((ble_evt_gap_connected_t *) hdr);
-							ble_evt_gap_connected_t *evt = (ble_evt_gap_connected_t *) hdr;
-							uint16_t mtu;
-							ble_gattc_get_mtu(evt->conn_idx, &mtu);
-							qc_svc_set_transport_mtu(mtu - 3); // Subtract 3 to account for L2CAP overhead
 							break;
 						case BLE_EVT_GAP_DISCONNECTED:
 							handle_evt_gap_disconnected((ble_evt_gap_disconnected_t *) hdr);
@@ -290,11 +297,8 @@ static void send_qc_svc_response(uint8_t conn_idx, uint8_t const * const p_data,
 							handle_evt_gap_pair_req((ble_evt_gap_pair_req_t *) hdr);
 							break;
 						case BLE_EVT_GATTC_MTU_CHANGED:
-						{
-							ble_evt_gattc_mtu_changed_t *evt = (ble_evt_gattc_mtu_changed_t *) hdr;
-							qc_svc_set_transport_mtu(evt->mtu - 3); // Subtract 3 to account for L2CAP overhead
+							handle_evt_gattc_mtu_changed((ble_evt_gattc_mtu_changed_t *) hdr);
 							break;
-						}
 						default:
 							ble_handle_event_default(hdr);
 							break;
