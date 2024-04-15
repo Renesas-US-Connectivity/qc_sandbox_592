@@ -78,7 +78,6 @@
 #define defaultBLE_PPCP_SLAVE_LATENCY           ( 0 )                                   // 0 events
 #define defaultBLE_PPCP_SUP_TIMEOUT             ( BLE_SUPERVISION_TMO_FROM_MS( 6000 ) ) // 6000 ms
 
-// TODO use for all configs
 #define dg_configBLE_2MBIT_PHY					(1)
 #define dg_configUSE_HW_I2C                     (1)
 #define dg_configI2C_ADAPTER                    (1)
