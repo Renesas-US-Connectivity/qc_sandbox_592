@@ -12,9 +12,9 @@
 #include <stdio.h>
 
 #define QC_SVC_REQUEST_LEN_MIN        3
-#define QC_SVC_REQUEST_TYPE_WRITE     0x01  // TODO change to enum
+#define QC_SVC_REQUEST_TYPE_WRITE     0x01
 #define QC_SVC_REQUEST_TYPE_READ      0x02
-#define QC_SVC_RESPONSE_FRAG_LEN_MAX  256  // TODO should this be tied to the MTU?
+#define QC_SVC_RESPONSE_FRAG_LEN_MAX  256
 
 typedef __PACKED_STRUCT
 {
@@ -33,7 +33,7 @@ typedef __PACKED_STRUCT
   uint8_t    type;
   uint8_t    status;
   uint16_t   id;
-} qc_svc_write_rsp_msg_t; // TODO make a union with read_rsp
+} qc_svc_write_rsp_msg_t;
 
 /* Service Constants */
 static const char request_char_user_description[]  = "Request";
@@ -263,7 +263,7 @@ ble_service_t *qc_svc_init(qc_svc_request_handlers_t const * const p_handlers, q
 	ble_gatts_add_characteristic(&uuid,
 								 GATT_PROP_WRITE,
 								 ATT_PERM_WRITE,
-	                             32, // TODO create define
+	                             32,
 	                             0,
 	                             NULL,
 	                             &qc_svc_handle->request_value_h);
@@ -281,7 +281,7 @@ ble_service_t *qc_svc_init(qc_svc_request_handlers_t const * const p_handlers, q
 	ble_gatts_add_characteristic(&uuid,
 								 GATT_PROP_READ | GATT_PROP_NOTIFY,
 								 ATT_PERM_READ,
-                                 101, // TODO create define
+                                 101,
                                  GATTS_FLAG_CHAR_READ_REQ,
                                  NULL,
                                  &qc_svc_handle->response_value_h);
@@ -387,7 +387,7 @@ qc_svc_error_t qc_svc_send_write_response(uint8_t conn_idx, qc_svc_error_t statu
     	transmit_cb(conn_idx, (uint8_t*)&qc_svc_write_rsp_msg, sizeof(qc_svc_write_rsp_msg));
     }
 
-    return QC_SVC_SUCCESS;  // TODO no return
+    return QC_SVC_SUCCESS;
 }
 
 static qc_svc_error_t send_rsp_msg_fragment(uint8_t conn_idx, qc_svc_read_rsp_msg_t * p_rsp)

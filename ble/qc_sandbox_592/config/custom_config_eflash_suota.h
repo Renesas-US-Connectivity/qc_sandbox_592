@@ -90,6 +90,10 @@
         #define dg_configBLE_L2CAP_COC          ( 0 )
 #endif
 
+#define dg_configBLE_2MBIT_PHY					(1)
+#define dg_configUSE_HW_I2C                     (1)
+#define dg_configI2C_ADAPTER                    (1)
+
 /* Include bsp default values */
 #include "bsp_defaults.h"
 /* Include middleware default values */
