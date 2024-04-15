@@ -124,6 +124,14 @@ static void handle_evt_gap_connected(ble_evt_gap_connected_t *evt)
 
 static void handle_evt_gap_disconnected(ble_evt_gap_disconnected_t *evt)
 {
+	// turn off led
+	hw_sys_pd_com_enable();
+	hw_gpio_set_pin_function(LED1_PORT, LED1_PIN, HW_GPIO_MODE_OUTPUT, HW_GPIO_FUNC_GPIO);
+	hw_gpio_pad_latch_enable(LED1_PORT, LED1_PIN);
+	hw_gpio_set_inactive(LED1_PORT, LED1_PIN);
+	hw_gpio_pad_latch_disable(LED1_PORT, LED1_PIN);
+	hw_sys_pd_com_disable();
+
 	// Restart advertising
 	ble_gap_adv_start(GAP_CONN_MODE_UNDIRECTED);
 }
